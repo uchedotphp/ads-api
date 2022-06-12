@@ -46,4 +46,32 @@ class PopupFeaturesTest extends TestCase
             "popup" => ["id", "idem", "data"],
         ]);
     }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function can_create_a_new_popup(): void
+    {
+        $samplePopup = Popup::factory()->make();
+        $endpoint = route("popups.store");
+
+        $response = $this->postJson($endpoint, [
+            "idem" => $samplePopup->idem,
+            "data" => json_decode($samplePopup->data),
+        ]);
+
+        $response->assertSuccessful();
+
+        $response->assertJsonStructure([
+            "popup" => ["id", "idem", "data"],
+        ]);
+
+        $this->assertDatabaseHas(
+            (new Popup())->getTable(),
+            [
+                "idem" => $samplePopup->idem,
+            ]
+        );
+    }
 }

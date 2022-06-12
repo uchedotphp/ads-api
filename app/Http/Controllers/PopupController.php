@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PopupStoreRequest;
 use App\Models\Popup;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,9 +16,10 @@ class PopupController extends Controller
         ]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(PopupStoreRequest $request, Popup $popup): JsonResponse
     {
-        $newPopup = null;
+        $newPopup = $popup->new($request->validated());
+
         return response()->json([
             "popup" => $newPopup,
         ], 201);
