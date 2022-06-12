@@ -8,15 +8,24 @@ use Tests\TestCase;
 
 class PopupFeaturesTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
+    use WithFaker;
 
-        $response->assertStatus(200);
+    /**
+     * @return void
+     * @test
+     */
+    public function can_get_paginated_list_of_popups(): void
+    {
+        $endpoint = route("popups.index");
+
+        $response = $this->getJson($endpoint);
+        $response->assertSuccessful();
+
+        $response->assertJsonStructure([
+            "popups" => [
+                "current_page", "last_page", "data"
+            ]
+        ]);
     }
 }
