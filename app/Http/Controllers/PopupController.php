@@ -35,16 +35,19 @@ class PopupController extends Controller
 
     public function update(PopupUpdateRequest $request, Popup $popup): JsonResponse
     {
-        $updated = Popup::where("idem", $popup->idem)
+        Popup::where("idem", $popup->idem)
             ->update($request->validated());
 
         return response()->json([
             "popup" => $popup->refresh(),
-        ], 200);
+        ]);
     }
 
-    public function destroy(Popup $popup)
+    public function destroy(Popup $popup): JsonResponse
     {
-        //
+        $popup->delete();
+        return response()->json([
+            "popup" => $popup->refresh(),
+        ]);
     }
 }

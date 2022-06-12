@@ -94,4 +94,25 @@ class PopupFeaturesTest extends TestCase
             "popup" => ["id", "idem", "data"],
         ]);
     }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function can_delete_an_existing_popup(): void
+    {
+        $samplePopup = Popup::factory()->create();
+        $endpoint = route("popups.destroy", ["popup" => $samplePopup->id]);
+
+        $response = $this->deleteJson($endpoint);
+
+        $response->assertSuccessful();
+
+        $this->assertDatabaseMissing(
+            (new Popup())->getTable(),
+            [
+                "idem" => $samplePopup->idem,
+            ]
+        );
+    }
 }
