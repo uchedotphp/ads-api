@@ -6,7 +6,6 @@ use App\Http\Requests\PopupStoreRequest;
 use App\Http\Requests\PopupUpdateRequest;
 use App\Models\Popup;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PopupController extends Controller
 {
