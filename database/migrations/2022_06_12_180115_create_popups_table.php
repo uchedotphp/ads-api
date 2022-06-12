@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('popups', function (Blueprint $table) {
             $table->id();
+            $table->string("idem")->unique();
+            $table->jsonb("data");
             $table->timestamps();
         });
     }
