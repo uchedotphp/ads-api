@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Popup;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class PopupStoreRequest extends FormRequest
+class PopupUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,8 +16,8 @@ class PopupStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "idem" => ["sometimes",],
-            "data" => ["required", "array"],
+            "idem" => ["required", Rule::exists((new Popup)->getTable(), "idem")],
+            "data" => ["required", "array"]
         ];
     }
 }

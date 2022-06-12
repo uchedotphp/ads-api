@@ -74,4 +74,24 @@ class PopupFeaturesTest extends TestCase
             ]
         );
     }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function can_update_an_existing_popup(): void
+    {
+        $samplePopup = Popup::factory()->create();
+        $endpoint = route("popups.update", ["popup" => $samplePopup->id]);
+
+        $response = $this->putJson($endpoint, [
+            "idem" => $samplePopup->idem,
+            "data" => json_decode($samplePopup->data),
+        ]);
+
+        $response->assertSuccessful();
+        $response->assertJsonStructure([
+            "popup" => ["id", "idem", "data"],
+        ]);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PopupStoreRequest;
+use App\Http\Requests\PopupUpdateRequest;
 use App\Models\Popup;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,10 +33,13 @@ class PopupController extends Controller
         ]);
     }
 
-    public function update(Request $request, Popup $popup): JsonResponse
+    public function update(PopupUpdateRequest $request, Popup $popup): JsonResponse
     {
+        $updated = Popup::where("idem", $popup->idem)
+            ->update($request->validated());
+
         return response()->json([
-            "popup" => $popup,
+            "popup" => $popup->refresh(),
         ], 200);
     }
 
