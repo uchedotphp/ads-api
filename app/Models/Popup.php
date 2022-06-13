@@ -10,7 +10,7 @@ class Popup extends Model
     use HasFactory;
 
     protected $fillable = [
-        "idem", "data",
+        "", "idem", "data",
     ];
 
     protected $casts = [

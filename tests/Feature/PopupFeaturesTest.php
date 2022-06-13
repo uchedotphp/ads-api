@@ -115,4 +115,21 @@ class PopupFeaturesTest extends TestCase
             ]
         );
     }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function can_fetch_popup_by_idem(): void
+    {
+        $samplePopup = Popup::factory()->create();
+        $endpoint = route("popups.serve", ["idem" => $samplePopup->idem]);
+
+        $response = $this->getJson($endpoint);
+        $response->assertSuccessful();
+
+        $response->assertJsonStructure([
+            "popup" => ["id", "idem", "data"],
+        ]);
+    }
 }
