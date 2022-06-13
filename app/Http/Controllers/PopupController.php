@@ -6,6 +6,7 @@ use App\Http\Requests\PopupStoreRequest;
 use App\Http\Requests\PopupUpdateRequest;
 use App\Models\Popup;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PopupController extends Controller
 {
@@ -47,6 +48,16 @@ class PopupController extends Controller
         $popup->delete();
         return response()->json([
             "popup" => $popup->refresh(),
+        ]);
+    }
+
+    public function fetch(Request $request): JsonResponse
+    {
+        $idem = $request->route("idem");
+        $popup = Popup::where("idem", $idem)->firstOrFail();
+
+        return response()->json([
+            "popup" => $popup,
         ]);
     }
 }
