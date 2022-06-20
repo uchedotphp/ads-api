@@ -132,4 +132,17 @@ class PopupFeaturesTest extends TestCase
             "popup" => ["id", "idem", "data"],
         ]);
     }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function can_serve_execution_script(): void
+    {
+        $samplePopup = Popup::factory()->create();
+        $endpoint = route("popups.integration", ["idem" => $samplePopup->idem]);
+
+        $response = $this->get($endpoint);
+        $response->assertSuccessful();
+    }
 }

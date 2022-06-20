@@ -7,6 +7,7 @@ use App\Http\Requests\PopupUpdateRequest;
 use App\Models\Popup;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PopupController extends Controller
 {
@@ -59,5 +60,17 @@ class PopupController extends Controller
         return response()->json([
             "popup" => $popup,
         ]);
+    }
+
+    public function integration(Request $request): Response
+    {
+        $idem = $request->query("idem");
+        $popup = Popup::where("idem", $idem)->firstOrFail();
+
+        $jsonData = json_decode($popup->data);
+
+        return response()
+            ->view("integrations.index", compact('popup', 'jsonData'))
+            ->header("Content-Type", "application/javascript");
     }
 }
