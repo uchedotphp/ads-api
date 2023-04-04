@@ -1,1 +1,1 @@
-## Poptin Ad Templating
+## Ad Templating
